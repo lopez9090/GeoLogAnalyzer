@@ -3,29 +3,28 @@
 ![Java](https://img.shields.io/badge/Java-17%2B-ED8B00?style=flat-square&logo=java&logoColor=white)
 ![License](https://img.shields.io/badge/License-MIT-blue.svg?style=flat-square)
 
-**Server Log Geo-Analyzer** is a specialized Java application designed to parse, validate, and analyze server log entries. It deeply focuses on resolving complex chronological anomalies (such as Daylight Saving Time gaps and overlaps) and enriches log data with client geolocation mapping to generate comprehensive usage reports based on the user's actual local time.
+**Server Log Geo-Analyzer** is a Java application that parses, validates, and analyzes server log entries. It resolves chronological anomalies like Daylight Saving Time (DST) gaps and overlaps, and maps client IPs to their geolocation to generate usage reports based on the sender's actual local time.
 
-## 🚀 Key Features
+## Features
 
-* **Advanced Timestamp Repair:** Accurately resolves local time ambiguities (DST overlaps and gaps) using the `java.time.zone.ZoneRules` API.
-* **IP Geolocation Integration:** Asynchronously queries the `ipwho.is` API via Java's native `HttpClient` to map IP addresses to country codes and precise timezones.
-* **Robust Parsing:** Validates IPv4 addresses, HTTP methods, and parses raw log formats gracefully.
-* **Comprehensive Analytics:** Generates detailed text-based reports including:
-    * Global error/repair metrics.
-    * Request counts aggregated by Country Code and Timezone.
-    * 24-hour request histograms normalized to the **sender's local time**.
-* **Modern Java Practices:** Built utilizing Java Records, Streams, Optional, and modern I/O operations.
+* **Timestamp Repair:** Resolves local time ambiguities (DST overlaps and gaps) using `java.time.zone.ZoneRules`.
+* **IP Geolocation:** Asynchronously queries the `ipwho.is` API via Java's `HttpClient` to map IP addresses to country codes and timezones.
+* **Log Parsing:** Validates IPv4 addresses and HTTP methods, and parses raw log formats.
+* **Analytics:** Generates text-based reports including:
+  * Global error and repair metrics.
+  * Request counts aggregated by Country Code and Timezone.
+  * 24-hour request histograms normalized to the sender's local time.
 
-## 🛠️ Tech Stack
+## Tech Stack
 
 * **Language:** Java 17+
 * **Dependencies:** [SnakeYAML](https://bitbucket.org/snakeyaml/snakeyaml) (for configuration loading)
 * **External APIs:** [ipwho.is](https://ipwhois.io/) (for IP geolocation)
 
-## 📦 Getting Started
+## Getting Started
 
 ### Prerequisites
-* Java Development Kit (JDK) 17 or higher.
+* JDK 17 or higher.
 * `snakeyaml-2.6.jar` included in your classpath.
 
 ### Configuration
@@ -38,21 +37,21 @@ logLines:
   - "req-001|2023-10-29T02:30:00|8.8.8.8|GET|/api/v1/data|200|45|1024"
   - "req-002|2023-10-29T02:45:00|1.1.1.1|POST|/api/v1/auth|201|120|2048"
 ```
-*Note: The log format expected is `requestId|serverLocalTime|clientIp|method|endpoint|status|latencyMs|bytes`.*
+*Note: The expected log format is `requestId|serverLocalTime|clientIp|method|endpoint|status|latencyMs|bytes`.*
 
 ### Execution
 Run the `Main` class. The application will:
 1. Load the configuration from `~/GeoLogOptions.yaml`.
 2. Parse the log entries.
-3. Repair any timezone-related timestamp anomalies based on the `serverZoneId`.
+3. Repair timezone-related timestamp anomalies based on the `serverZoneId`.
 4. Fetch Geo/Timezone data for each client IP.
-5. Print a comprehensive analytics report to the standard output.
+5. Print an analytics report to standard output.
 
-## 📊 Sample Output
+## Sample Output
 
 ```text
 SUMMARY
-Metric                      Value
+Metric                    Value
 --------------------------  -----
 Invalid lines               0
 Repaired gap times          0
@@ -69,7 +68,7 @@ Code Count
 US       2
 
 TIMEZONES
-Timezone                 Count
+Timezone                Count
 ------------------------ -----
 America/New_York             1
 America/Los_Angeles          1
@@ -81,6 +80,7 @@ Hour range Count
 17:00-17:59     1
 ```
 
-## 👨‍💻 Author
-**Jan Myziak** * Index: s31003
+## Author
+
+* **Jan Myziak** (Index: s31003)
 * [GitHub Profile](https://github.com/lopez9090)
